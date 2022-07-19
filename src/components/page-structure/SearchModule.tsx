@@ -1,8 +1,15 @@
 import React from 'react'
+import { useState } from 'react'
+import { useSearchForm } from '../../hooks/useSearchForm'
 
 const SearchModule = () => {
+
+  const [search, setSearch] = useState("")
+
   return (
-    <div>SearchPage</div>
+    <div>
+      <input></input>
+    </div>
   )
 }
 

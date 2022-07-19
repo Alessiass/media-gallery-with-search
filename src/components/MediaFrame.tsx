@@ -1,11 +1,15 @@
 import React from 'react'
-import { MediaList } from '../api-data/api'
+import { MediaList } from '../api/api'
 
-const MediaFrame = (mediaData: MediaList) => {
+interface InputProps {
+  itemData: MediaList
+}
+
+const MediaFrame = (props: InputProps) => {
   
   return (
-    <div>MediaFrame
-      
+    <div>
+      {props.itemData.title}
     </div>
   )
 }
