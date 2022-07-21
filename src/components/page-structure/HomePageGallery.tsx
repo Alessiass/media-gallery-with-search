@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { fetchMediaList } from "../../api/api";
 import { MediaList } from "../../api/api";
 import MediaFrame from "../MediaFrame";
-import { useFavourites } from "./Favourites";
+import { useManageFavourites } from '../../hooks/useManageFavourites'
 
 interface HomePageGalleryProps {
   itemPerLoad: number;
@@ -10,31 +10,24 @@ interface HomePageGalleryProps {
 
 const HomePageGallery = ({ itemPerLoad }: HomePageGalleryProps) => {
   const [mediaData, setMediaData] = useState([] as MediaList[]);
-  const [currentPage, setCurrentPage] = useState(2);
-  const {favourites} = useFavourites();
+  const [currentPage, setCurrentPage] = useState(1);
+  const {favouritesList} = useManageFavourites();
 
   useEffect(() => {
-    fetchMediaList(itemPerLoad, 1)
+    fetchMediaList(5, currentPage)
       .then((_data) =>
-        setMediaData(_data.sort((a, b) => (a.title > b.title ? 1 : -1)))
-    )
+        setMediaData((prev) => [...prev, ..._data].sort((a, b) => (a.title > b.title ? 1 : -1))))
+    
       .catch((err) => console.log(err));
-  }, [itemPerLoad]);
+  }, [itemPerLoad, currentPage]);
 
   const loadMore = () => {
-    fetchMediaList(itemPerLoad, currentPage)
-      .then((_data) =>
-        setMediaData((prev) =>
-          prev.concat(_data).sort((a, b) => (a.title > b.title ? 1 : -1))
-        )
-      )
-      .then(() => setCurrentPage(currentPage + 1))
-      .catch((err) => console.log(err));
+    setCurrentPage(prev => prev+1)
   };
 
   return (
     <div>
-      {favourites}
+      {favouritesList}
       <div>
         {mediaData.map((el) => (
           <div key={el.id}>
@@ -43,7 +36,7 @@ const HomePageGallery = ({ itemPerLoad }: HomePageGalleryProps) => {
         ))}
       </div>
       <button onClick={loadMore}>Load more</button>
-      <button onClick={() => console.log(mediaData)}>Print</button>
+      <button onClick={() => console.log(favouritesList)}>Print</button>
     </div>
   );
 };

@@ -1,30 +1,20 @@
 import React from "react";
-import { useFavourites } from "../components/page-structure/Favourites";
+import { RootState, useAppDispatch,useAppSelector } from "../store/store";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleFav } from "../store/favouritesSlice";
 
 export const useManageFavourites = () => {
-  const { favourites, setFavourites } = useFavourites();
+  const favouritesList = useAppSelector(
+    (state: RootState) => state.favourites.favourites
+  );
+  const dispatch = useAppDispatch();
 
-  const addFavourite = async (title: string) => {
-    if (!favourites.has(title)) {
-      setFavourites((prev) => prev.add(title));
-      console.log("success");
-      console.log(favourites);
-    } else {
-      console.log("This title is already on the favourite list");
-    }
-  };
-  const removeFavourite = async (title: string) => {
-    if (favourites.delete(title)) {
-      console.log("Title was removed from the list");
-      console.log(favourites);
-    } else {
-      console.log("Title wasn't on the favourite list");
-      console.log(favourites);
-    }
+  const toggleFavourite = (id: number) => {
+    dispatch(toggleFav(id));
   };
 
   return {
-    addFavourite,
-    removeFavourite,
+    favouritesList,
+    toggleFav: toggleFavourite,
   };
 };
