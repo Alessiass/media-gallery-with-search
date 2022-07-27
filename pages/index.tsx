@@ -7,7 +7,7 @@ import HomePageGallery from "../src/components/page-structure/HomePageGallery";
 const Home: NextPageWithLayout = () => {
   return (
     <div>
-          <HomePageGallery itemPerLoad={4} />
+          <HomePageGallery itemPerLoad={7} />
     </div>
   );
 };

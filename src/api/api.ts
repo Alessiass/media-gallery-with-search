@@ -15,7 +15,7 @@ export interface MediaList {
 
 const mediaList = data as MediaList[];
 const errorPossibility = 0; //Initial 0.2
-const maxRequestTimeout = 5; //Initial 4
+const maxRequestTimeout = 1; //Initial 4
 
 export function fetchMediaList(
   limit: number,

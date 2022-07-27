@@ -11,13 +11,12 @@ interface HomePageGalleryProps {
 const HomePageGallery = ({ itemPerLoad }: HomePageGalleryProps) => {
   const [mediaData, setMediaData] = useState([] as MediaList[]);
   const [currentPage, setCurrentPage] = useState(1);
-  const {favouritesList} = useManageFavourites();
+  const {favouritesList} = useManageFavourites(); // returns the ids of the favourites
 
   useEffect(() => {
-    fetchMediaList(5, currentPage)
+    fetchMediaList(itemPerLoad, currentPage)
       .then((_data) =>
         setMediaData((prev) => [...prev, ..._data].sort((a, b) => (a.title > b.title ? 1 : -1))))
-    
       .catch((err) => console.log(err));
   }, [itemPerLoad, currentPage]);
 
@@ -27,9 +26,15 @@ const HomePageGallery = ({ itemPerLoad }: HomePageGalleryProps) => {
 
   return (
     <div>
-      {favouritesList}
+      <h1>Favourites!</h1>
+              {mediaData.filter(movie=> favouritesList.includes(movie.id)).map((el) => (
+          <div key={el.id}>
+            <MediaFrame itemData={el} />
+          </div>
+        ))}
       <div>
-        {mediaData.map((el) => (
+      <h1>Movie list</h1>
+        {mediaData.filter(movie=> !favouritesList.includes(movie.id)).map((el) => (
           <div key={el.id}>
             <MediaFrame itemData={el} />
           </div>

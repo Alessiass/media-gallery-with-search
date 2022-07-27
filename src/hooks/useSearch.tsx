@@ -7,7 +7,7 @@ interface UseSearchProps extends ResultHandler {
   query:string
 }
 
-export const useSearch = ({ onSuccess, onError,query }: UseSearchProps) => {
+export const useSearch = ({ onSuccess, onError, query }: UseSearchProps) => {
     
   const queryData = useQuery(['search', query], () => searchMedia(query), {
     onError: (err: Error) => {
